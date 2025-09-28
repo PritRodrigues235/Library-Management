@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Item Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f0f8ff 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .item-details {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 100, 255, 0.15);
+      animation: fadeIn 0.5s ease-in-out;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .item-details:hover {
+      transform: translateY(-5px);
+    }
+
+    .item-details h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1e40af;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .item-details span {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #3b82f6;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .item-details p {
+      font-size: 1.1rem;
+      color: #4b5563;
+      line-height: 1.8;
+      margin: 10px 0;
+    }
+
+    .item-details h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1e40af;
+      margin: 25px 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .availability {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .availability i {
+      color: inherit; /* Ensure Font Awesome icons inherit the color of the parent */
+    }
+
+    .available {
+      color: #16a34a;
+    }
+
+    .unavailable {
+      color: #dc2626;
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 30px;
+      padding: 12px 24px;
+      background: linear-gradient(90deg, #3b82f6, #1e40af);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 100, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background: linear-gradient(90deg, #1e40af, #3b82f6);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 100, 255, 0.4);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .item-details {
+        padding: 20px;
+      }
+
+      .item-details h2 {
+        font-size: 2rem;
+      }
+
+      .item-details h3 {
+        font-size: 1.3rem;
+      }
+
+      .item-details p {
+        font-size: 1rem;
+      }
+
+      .back-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="item-details" id="itemDetails">
+    <p>Loading item details...</p>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const itemName = params.get('name');
+
+    async function loadItemDetails() {
+      try {
+        const response = await fetch(`http://localhost:3000/search?q=${encodeURIComponent(itemName)}`);
+        const items = await response.json();
+        const item = items.find(i => i.name.toLowerCase() === itemName.toLowerCase());
+
+        if (!item) {
+          document.getElementById('itemDetails').innerHTML = '<p>Item not found.</p>';
+          return;
+        }
+
+        const availabilityClass = item.available ? 'available' : 'unavailable';
+        const availabilityText = item.available ? '<i class="fas fa-check-circle"></i> Available' : '<i class="fas fa-times-circle"></i> Unavailable';
+
+        document.getElementById('itemDetails').innerHTML = `
+          <h2>${item.name}</h2>
+          <span>Type: ${item.type}</span>
+          <p>${item.description}</p>
+          <h3><i class="fas fa-user"></i> Author</h3>
+          <p>${item.author || 'Author not available'}</p>
+          <h3><i class="fas fa-lightbulb"></i> Fun Fact</h3>
+          <p>${item.funFact || 'No fun fact available'}</p>
+          <h3><i class="fas fa-book"></i> Reading Tip</h3>
+          <p>${item.readingTip || 'No reading tip available'}</p>
+          <h3><i class="fas fa-info-circle"></i> Availability</h3>
+          <p class="availability ${availabilityClass}">${availabilityText}</p>
+          <a href="search.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Search</a>
+        `;
+      } catch (error) {
+        document.getElementById('itemDetails').innerHTML = `<p>Error loading item: ${error.message}</p>`;
+      }
+    }
+
+    loadItemDetails();
+  </script>
+</body>
+</html>

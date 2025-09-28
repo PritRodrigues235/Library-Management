@@ -1,0 +1,197 @@
+/* ====== Layout & Background ====== */
+body {
+  margin: 0;
+  padding-top: 80px;
+  padding-bottom: 60px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=928&auto=format&fit=crop&ixlib=rb-4.1.0');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ====== Header ====== */
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 32px;
+  background: #e0e8ef;
+  z-index: 1000;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-title {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: clamp(22px, 5vw, 26px);
+  font-weight: bold;
+  color: #516d91;
+  letter-spacing: 2px;
+  margin-right: 16px;
+}
+
+.header-line {
+  display: inline-block;
+  width: 3px;
+  height: 32px;
+  background: #516d91;
+  border-radius: 2px;
+  margin-left: 8px;
+}
+
+.header-buttons {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: 10px;
+}
+
+.header-signup {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+/* ====== Header Buttons ====== */
+.aboutus-btn,
+.contact-btn,
+.signup-btn {
+  font-size: 14px;
+  padding: 8px 18px;
+  border-radius: 24px;
+  background: #7e97b8;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.aboutus-btn:hover,
+.contact-btn:hover,
+.signup-btn:hover {
+  background: #516d91;
+}
+
+/* ====== Center Container ====== */
+.center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 140px);
+  padding: 0 20px;
+}
+
+.library-box {
+  background: #e0e8ef;
+  color: #232946;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: clamp(24px, 6vw, 32px);
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-align: center;
+  border-radius: 16px;
+  padding: 24px 48px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 16px 0px #23294622;
+  margin-top: -10px;
+}
+
+/* ====== Main Explore Button ====== */
+.center-container > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: inherit;
+  font-size: clamp(18px, 5vw, 24px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+  background-color: #0898d1;
+  border: 2px solid #232946;
+  border-radius: 50px;
+  padding: 32px 60px;
+  transition: 0.2s;
+  box-shadow: -4px -2px 16px 0px #23294644, 4px 2px 16px 0px #23294644;
+}
+
+.center-container > button:hover {
+  background-color: #17b5cad8;
+  box-shadow: -2px -1px 8px 0px #2092b4be, 2px 1px 8px 0px #26399c44;
+}
+
+/* ====== Footer ====== */
+.main-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  text-align: center;
+  padding: 16px 0;
+  background: #e0e8ef;
+  font-size: 16px;
+  z-index: 1000;
+}
+
+/* ====== Mobile Responsiveness ====== */
+@media (max-width: 768px) {
+  .main-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .header-buttons {
+    position: static;
+    transform: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .header-signup {
+    margin-left: 0;
+    margin-top: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .aboutus-btn,
+  .contact-btn,
+  .signup-btn {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px;
+    margin: 6px 0;
+  }
+
+  .center-container > button {
+    width: 100%;
+    padding: 24px;
+    border-radius: 40px;
+  }
+
+  .main-footer {
+    font-size: 14px;
+    padding: 12px 0;
+  }
+}

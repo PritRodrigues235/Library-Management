@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search Books</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f0f8ff 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    header {
+      background: rgba(59, 130, 246, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 20px 0;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 100, 255, 0.15);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    .nav-button {
+      background: rgba(255, 255, 255, 0.9);
+      color: #1e40af;
+      padding: 10px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 100, 255, 0.2);
+    }
+
+    .nav-button:hover {
+      background: #fef3c7;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 100, 255, 0.3);
+    }
+
+    .search-container {
+      max-width: 800px;
+      margin: 40px auto;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 50px;
+      box-shadow: 0 8px 20px rgba(0, 100, 255, 0.15);
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 16px 20px;
+      font-size: 1.1rem;
+      border-radius: 25px;
+      border: none;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus {
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+    }
+
+    button {
+      padding: 16px 30px;
+      font-size: 1.1rem;
+      background: linear-gradient(90deg, #3b82f6, #1e40af);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 100, 255, 0.2);
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #1e40af, #3b82f6);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 100, 255, 0.3);
+    }
+
+    .content-list {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .content-item {
+      position: relative;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 100, 255, 0.1);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .content-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0, 100, 255, 0.2);
+    }
+
+    .content-item img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      border-radius: 10px;
+      margin: 0 auto 15px auto;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .content-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .content-item h3 {
+      margin: 10px 0;
+      font-size: 1.4rem;
+      color: #1e40af;
+      font-weight: 600;
+    }
+
+    .content-item p {
+      margin: 8px 0;
+      font-size: 0.95rem;
+      color: #4b5563;
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+
+    .content-item span {
+      font-size: 0.9rem;
+      color: #3b82f6;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .top-match {
+      background: linear-gradient(135deg, #fef3c7, rgba(255, 255, 255, 0.9));
+      border: 2px solid #3b82f6;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+      100% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+    }
+
+    .top-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #fef3c7;
+      color: #1e40af;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(0, 100, 255, 0.2);
+    }
+
+    .error-message,
+    .loading-message {
+      grid-column: 1 / -1;
+      padding: 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-align: center;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .error-message {
+      background: rgba(254, 226, 226, 0.9);
+      color: #dc2626;
+    }
+
+    .loading-message {
+      background: rgba(224, 242, 254, 0.9);
+      color: #1e40af;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: #4b5563;
+      font-size: 0.9rem;
+      margin-top: auto;
+      box-shadow: 0 -2px 6px rgba(0, 100, 255, 0.1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      .search-container {
+        flex-direction: column;
+        align-items: stretch;
+        margin: 20px;
+        padding: 15px;
+      }
+
+      input[type="text"],
+      button {
+        width: 100%;
+        font-size: 1rem;
+        padding: 14px;
+        border-radius: 20px;
+      }
+
+      .content-list {
+        grid-template-columns: 1fr;
+        padding: 0 15px;
+      }
+
+      .content-item img {
+        max-width: 180px;
+        aspect-ratio: 2 / 3;
+      }
+
+      .content-item h3 {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .content-item {
+        padding: 15px;
+      }
+
+      .content-item img {
+        max-width: 150px;
+        aspect-ratio: 2 / 3;
+      }
+
+      .content-item h3 {
+        font-size: 1.1rem;
+      }
+
+      .content-item p {
+        font-size: 0.9rem;
+      }
+
+      .error-message,
+      .loading-message {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <h1>Search Books</h1>
+      <nav>
+        <a href="about.html" class="nav-button"><i class="fas fa-info-circle"></i> About Us</a>
+        <a href="contact.html" class="nav-button"><i class="fas fa-envelope"></i> Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search for books by title..." aria-label="Search for books" />
+    <button onclick="fetchAndDisplayContent()"><i class="fas fa-search"></i> Search</button>
+  </div>
+
+  <ul class="content-list" id="contentList">
+    <li class="loading-message"><i class="fas fa-book"></i> Enter a book title to begin.</li>
+  </ul>
+
+  <footer>
+    &copy; 2025 Search Books. All rights reserved.
+  </footer>
+
+  <script>
+    async function fetchAndDisplayContent() {
+      const query = document.getElementById('searchInput').value.trim();
+      const contentList = document.getElementById('contentList');
+
+      if (!query) {
+        contentList.innerHTML = '<li class="error-message"><i class="fas fa-exclamation-circle"></i> Please enter a search term.</li>';
+        return;
+      }
+
+      contentList.innerHTML = '<li class="loading-message"><i class="fas fa-spinner fa-spin"></i> Loading results...</li>';
+
+      try {
+        const response = await fetch(`http://localhost:3000/search?q=${encodeURIComponent(query)}`);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+        const items = await response.json();
+        contentList.innerHTML = '';
+
+        if (items.length === 0) {
+          contentList.innerHTML = '<li class="error-message"><i class="fas fa-exclamation-circle"></i> No results found.</li>';
+        } else {
+          const summary = document.createElement('li');
+          summary.className = 'loading-message';
+          summary.style.color = '#1e40af';
+          summary.innerHTML = `<i class="fas fa-info-circle"></i> ${items.length} result${items.length > 1 ? 's' : ''} found`;
+          contentList.appendChild(summary);
+
+          items.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'content-item';
+            let imageUrl = item.imageUrl || 'https://via.placeholder.com/300x450?text=Book+Cover';
+            if (imageUrl.includes('covers.openlibrary.org')) {
+              imageUrl = imageUrl.replace('-M.jpg', '-L.jpg');
+            }
+            if (item.isTopMatch) {
+              li.classList.add('top-match');
+              li.innerHTML = `
+                <div class="top-badge"><i class="fas fa-star"></i> Top Match</div>
+                <img src="${imageUrl}" alt="Cover of ${item.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=Cover+Not+Found'" />
+                <h3>${item.name}</h3>
+                <span>${item.type}</span>
+                <p>${item.description}</p>
+              `;
+            } else {
+              li.innerHTML = `
+                <img src="${imageUrl}" alt="Cover of ${item.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=Cover+Not+Found'" />
+                <h3>${item.name}</h3>
+                <span>${item.type}</span>
+                <p>${item.description}</p>
+              `;
+            }
+
+            li.addEventListener('click', () => {
+              window.location.href = `details.html?name=${encodeURIComponent(item.name)}`;
+            });
+
+            contentList.appendChild(li);
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching search results:', error);
+        contentList.innerHTML = `<li class="error-message"><i class="fas fa-exclamation-circle"></i> Error loading results: ${error.message}</li>`;
+      }
+    }
+
+    document.getElementById('searchInput').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        fetchAndDisplayContent();
+      }
+    });
+  </script>
+</body>
+</html>
